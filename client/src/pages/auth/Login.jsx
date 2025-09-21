@@ -3,6 +3,7 @@ import PageHeader from '../../components/PageHeader'
 import { FaUser } from "react-icons/fa";
 import { TbLockPassword } from "react-icons/tb";
 import { Link } from 'react-router-dom';
+import Footer from '../../components/Footer';
 
 const Login = () => {
   const [loginUser, setLoginUser] = useState({
@@ -21,7 +22,8 @@ const Login = () => {
   }
   
   return (
-    <div className='min-h-screen w-full p-5 flex justify-center items-center'>
+    <div className='min-h-screen w-full p-5 flex flex-col justify-center items-center gap-5 relative'>
+      <h2 className='text-5xl font-bold uppercase text-accent'>AG Chats</h2>
       <div className="loginForm flex flex-col gap-4 w-[40rem] border-[1px] border-gray-200 
       py-4 px-6 rounded-xl">
         <PageHeader title={'Login User'} />
@@ -54,9 +56,9 @@ const Login = () => {
           />
         </label>
 
-        <button className="btn btn-soft btn-primary" onClick={handleSubmit}>Submit</button>
+        <button className="btn btn-soft btn-accent" onClick={handleSubmit}>Submit</button>
 
-        <p>Don't have an account? <Link to={'/register'}>Sign Up</Link></p>
+        <p className='text-center'>Don't have an account? <Link to={'/register'}>Sign Up</Link></p>
 
         <p className="validator-hint">
           Must be 3 to 30 characters, containing only letters, numbers or dash
@@ -66,6 +68,7 @@ const Login = () => {
           At least one number <br />At least one lowercase letter <br />At least one uppercase letter
         </p>
       </div>
+      <Footer />
     </div>
   )
 }

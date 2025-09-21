@@ -1,6 +1,5 @@
 import React from 'react'
 import { Outlet } from 'react-router-dom'
-import Footer from './components/Footer'
 import { useSelector } from 'react-redux'
 
 const App = () => {
@@ -8,7 +7,6 @@ const App = () => {
   return (
     <div className='relative'>
       <Outlet />
-      <Footer />
     </div>
   )
 }

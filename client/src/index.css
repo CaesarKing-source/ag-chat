@@ -2,3 +2,8 @@
 @plugin "daisyui" {
     themes: light --default, dark --prefersdark, cupcake;
 }
+
+.validator-hint {
+    margin-top: 0 !important;
+    margin-bottom: -12px !important;
+}
