@@ -6,10 +6,12 @@ import { connectToDB } from './config/db.config.js';
 connectToDB();
 import userRouter from './routes/user.route.js';
 import { errorMiddleware } from "./middlewares/error.middleware.js";
+import cookieParser from "cookie-parser";
 
 // default middlewares
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use(cookieParser());
 
 // custom routes
 app.use('/api/v1/user', userRouter);

@@ -6,3 +6,7 @@ export const tokenSignIn = (id) => {
         expiresIn: '2d'
     });
 }
+
+export const tokenVerify = (token) => {
+    return jwt.verify(token, process.env.JWT_SECRET);
+}

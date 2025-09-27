@@ -20,6 +20,7 @@ export const registerUser = asyncHandler(async (req, res, next) => {
         username, gender });
 
     const token = tokenSignIn(newUser._id);
+    req.user = user;
     res.status(201).cookie('ag-chat-token', token, cookieOptions).json({
         success: true,
         message: 'User registered successfully',
@@ -27,7 +28,7 @@ export const registerUser = asyncHandler(async (req, res, next) => {
     });
 });
 
-export const loginUser = asyncHandler(async (req, res) => {
+export const loginUser = asyncHandler(async (req, res, next) => {
     const { username, password } = req.body;
     if(!username ||!password) {
         return next(new errorHandler('Please provide username and password', 400));
@@ -39,9 +40,31 @@ export const loginUser = asyncHandler(async (req, res) => {
     }
 
     const token = tokenSignIn(user._id);
+    req.user = user; 
     res.status(200).cookie('ag-chat-token', token, cookieOptions).json({
         success: true,
         message: 'User logged in successfully',
         token,
     });
+});
+
+export const getUserProfile = asyncHandler(async (req, res, next) => {
+    const userId = req.userID;
+    const user = await userModel.findById(userId);
+    if(!user) {
+        return next(new errorHandler('Error! User not found', 404));
+    }
+    req.user = user;
+    res.json({
+        success: true,
+        message: 'User profile retrieved successfully',
+        user,
+    });
+});
+
+export const logoutUser = asyncHandler(async (req, res, next) => {
+    res.clearCookie('ag-chat-token', cookieOptions).json({
+        success: true,
+        message: 'User logged out successfully',
+    })
 });
