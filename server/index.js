@@ -5,6 +5,7 @@ dotenv.config();
 import { connectToDB } from './config/db.config.js';
 connectToDB();
 import userRouter from './routes/user.route.js';
+import messageRouter from './routes/message.route.js';
 import { errorMiddleware } from "./middlewares/error.middleware.js";
 import cookieParser from "cookie-parser";
 
@@ -15,6 +16,7 @@ app.use(cookieParser());
 
 // custom routes
 app.use('/api/v1/user', userRouter);
+app.use('/api/v1/message', messageRouter);
 
 // custom middlewares
 app.use(errorMiddleware);

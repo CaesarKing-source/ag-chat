@@ -68,3 +68,15 @@ export const logoutUser = asyncHandler(async (req, res, next) => {
         message: 'User logged out successfully',
     })
 });
+
+export const otherUsers = asyncHandler(async (req, res, next) => {
+    const users = await userModel.find({ _id: { $ne: req.userID }});
+    if(!users) {
+        return next(new errorHandler('Error! No other users found', 404));
+    }
+    res.json({
+        success: true,
+        message: 'Other users retrieved successfully',
+        users,
+    });
+})
