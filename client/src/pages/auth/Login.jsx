@@ -4,12 +4,15 @@ import { FaUser } from "react-icons/fa";
 import { TbLockPassword } from "react-icons/tb";
 import { Link } from 'react-router-dom';
 import Footer from '../../components/Footer';
-
+import toast from 'react-hot-toast';
+import { useDispatch } from 'react-redux';
+import { loginUserThunk } from '../../store/slice/user/userThunk';
 const Login = () => {
   const [loginUser, setLoginUser] = useState({
     username: "",
     password: ""
   });
+  const dispatch = useDispatch();
 
   const handleInputChange = (e) => {
     setLoginUser(prev => ({
@@ -17,14 +20,18 @@ const Login = () => {
       [e.target.name]: e.target.value
     }))
   }
-  const handleSubmit = () => {
-    console.log(loginUser)
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    console.log(loginUser);
+    await dispatch(loginUserThunk(loginUser));
+    toast.success('Login Successfully');
   }
   
   return (
     <div className='min-h-screen w-full p-5 flex flex-col justify-center items-center gap-5 relative'>
       <h2 className='text-5xl font-bold uppercase text-accent'>AG Chats</h2>
-      <div className="loginForm flex flex-col gap-4 w-[40rem] border-[1px] border-gray-200 
+      <form className="loginForm flex flex-col gap-4 w-[40rem] border-[1px] border-gray-200 
       py-4 px-6 rounded-xl">
         <PageHeader title={'Login User'} />
         <label className="input validator w-full">
@@ -36,8 +43,8 @@ const Login = () => {
             required
             placeholder="Username"
             pattern="[A-Za-z][A-Za-z0-9\-]*"
-            minlength="3"
-            maxlength="30"
+            minLength="3"
+            maxLength="30"
             title="Only letters, numbers or dash"
           />
         </label>
@@ -50,9 +57,6 @@ const Login = () => {
             onChange={handleInputChange}
             required
             placeholder="Password"
-            minlength="6"
-            pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}"
-            title="Must be more than 5 characters, including number, lowercase letter, uppercase letter"
           />
         </label>
 
@@ -65,9 +69,9 @@ const Login = () => {
         </p>
         <p className="validator-hint hidden">
           Must be more than 5 characters, including
-          At least one number <br />At least one lowercase letter <br />At least one uppercase letter
+          {/* At least one number <br />At least one lowercase letter <br />At least one uppercase letter */}
         </p>
-      </div>
+      </form>
       <Footer />
     </div>
   )

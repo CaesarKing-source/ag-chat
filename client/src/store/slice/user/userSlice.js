@@ -9,9 +9,7 @@ const userSlice = createSlice({
     name: 'user',
     initialState,
     reducers: {
-        login: () => {
-
-        }
+        
     },
     extraReducers: (builder) => {
         builder.addCase(loginUserThunk.pending, () => {
