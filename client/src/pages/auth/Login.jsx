@@ -2,18 +2,18 @@ import React, { useState } from 'react'
 import PageHeader from '../../components/PageHeader'
 import { FaUser } from "react-icons/fa";
 import { TbLockPassword } from "react-icons/tb";
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import Footer from '../../components/Footer';
-import toast from 'react-hot-toast';
 import { useDispatch } from 'react-redux';
 import { loginUserThunk } from '../../store/slice/user/userThunk';
+import toast from 'react-hot-toast';
 const Login = () => {
   const [loginUser, setLoginUser] = useState({
     username: "",
     password: ""
   });
   const dispatch = useDispatch();
-
+  const navigate = useNavigate();
   const handleInputChange = (e) => {
     setLoginUser(prev => ({
       ...prev,
@@ -23,9 +23,18 @@ const Login = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log(loginUser);
-    await dispatch(loginUserThunk(loginUser));
-    toast.success('Login Successfully');
+    if(!loginUser.username || !loginUser.password) {
+      toast.error('Please fill all fields');
+      return;
+    }
+    const response = await dispatch(loginUserThunk(loginUser));
+    if(response?.payload?.success) {
+      navigate('/');
+    }
+    setLoginUser({
+      username: "",
+      password: ""
+    }); 
   }
   
   return (

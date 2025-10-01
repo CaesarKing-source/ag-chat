@@ -1,8 +1,17 @@
 import React from 'react'
 import { IoIosLogOut } from "react-icons/io";
 import { IoSettings } from "react-icons/io5";
+import { useDispatch } from "react-redux";
+import { Link, useNavigate } from 'react-router-dom';
+import { logoutUserThunk } from '../store/slice/user/userThunk';
 
 const MainUserCard = () => {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const handleLogout = async () => {
+    await dispatch(logoutUserThunk);
+    navigate('/login');
+  }
   return (
     <div className="user-card flex gap-4 items-center p-2">
         <div className="avatar">
@@ -16,8 +25,8 @@ const MainUserCard = () => {
                 <p className='text-xs text-gray-200'>Username</p>
             </div>
             <div className="user-actions flex items-center gap-2">
+                <IoIosLogOut onClick={handleLogout} className='text-accent cursor-pointer' size={23} />
                 <IoSettings  className='text-accent cursor-pointer' size={20} />
-                <IoIosLogOut className='text-accent cursor-pointer' size={23} />
             </div>
         </div>
     </div>

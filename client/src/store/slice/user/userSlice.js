@@ -1,8 +1,10 @@
 import { createSlice } from "@reduxjs/toolkit"
-import { loginUserThunk } from "./userThunk";
+import { loginUserThunk, logoutUserThunk, registerUserThunk } from "./userThunk";
 
 const initialState = {
-    isAuthenticated: false
+    isAuthenticated: false,
+    isLoading: false,
+    user: null
 }
 
 const userSlice = createSlice({
@@ -12,14 +14,44 @@ const userSlice = createSlice({
         
     },
     extraReducers: (builder) => {
-        builder.addCase(loginUserThunk.pending, () => {
-            console.log('pending')
+        // login
+        builder.addCase(loginUserThunk.pending, (state, action) => {
+            state.isLoading = true;
         })
-        builder.addCase(loginUserThunk.fulfilled, () => {
-            console.log('fullfilled')
+        builder.addCase(loginUserThunk.fulfilled, (state, action) => {
+            state.user = action.payload?.user;
+            state.isAuthenticated = true;
+            state.isLoading = false
         })
-        builder.addCase(loginUserThunk.rejected, () => {
-            console.log('rejected')
+        builder.addCase(loginUserThunk.rejected, (state, action) => {
+            state.isLoading = false
+        })
+
+        // register
+        builder.addCase(registerUserThunk.pending, (state, action) => {
+            state.isLoading = true;
+        })
+        builder.addCase(registerUserThunk.fulfilled, (state, action) => {
+            state.user = action.payload?.user;
+            state.isAuthenticated = true;
+            state.isLoading = false
+        })
+        builder.addCase(registerUserThunk.rejected, (state, action) => {
+            state.isLoading = false
+        })
+
+
+        // logout 
+        builder.addCase(logoutUserThunk.pending, (state, action) => {
+            state.isLoading = true;
+        })
+        builder.addCase(logoutUserThunk.fulfilled, (state, action) => {
+            state.user = null;
+            state.isAuthenticated = false;
+            state.isLoading = false;
+        })
+        builder.addCase(logoutUserThunk.rejected, (state, action) => {
+            state.isLoading = false;
         })
     }
 });
