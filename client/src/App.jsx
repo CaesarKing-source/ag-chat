@@ -1,9 +1,20 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { Outlet } from 'react-router-dom'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { Toaster } from 'react-hot-toast'
+import { getOtherUserThunk, getProfileThunk } from './store/slice/user/userThunk'
 const App = () => {
-  const {isAuthenticated} = useSelector(state => state.user);
+  const { user, isAuthenticated } = useSelector(state => state.user);
+  const dispatch = useDispatch();
+  console.log(`user: ${user}, isAuth: ${isAuthenticated}`);
+  
+  useEffect(() => {
+    if (isAuthenticated) {
+      dispatch(getProfileThunk());
+      dispatch(getOtherUserThunk());
+    }
+  }, [isAuthenticated]);
+
   return (
     <div className='relative'>
       <Toaster

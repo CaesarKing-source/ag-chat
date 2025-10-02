@@ -7,7 +7,9 @@ import Login from './pages/auth/Login.jsx'
 import Home from './pages/home/Home.jsx'
 import Register from './pages/auth/Register.jsx'
 import { Provider } from 'react-redux'
-import { store } from './store/store.js'
+import { persistor, store } from './store/store.js'
+import ProtectedRoute from './api/utilities/ProtectedRoute.jsx'
+import { PersistGate } from 'redux-persist/integration/react'
 
 const router = createBrowserRouter([
   {
@@ -16,7 +18,10 @@ const router = createBrowserRouter([
     children: [
       {
         index: true,
-        element: <Home />
+        element: 
+        <ProtectedRoute>
+          <Home />
+        </ProtectedRoute>
       },
       {
         path: '/login',
@@ -33,7 +38,9 @@ const router = createBrowserRouter([
 createRoot(document.getElementById('root')).render(
   <StrictMode>
     <Provider store={store}>
+      <PersistGate persistor={persistor}>
       <RouterProvider router={router} />
+      </PersistGate>
     </Provider>
   </StrictMode>,
 )

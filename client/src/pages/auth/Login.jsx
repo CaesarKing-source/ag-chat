@@ -1,10 +1,10 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import PageHeader from '../../components/PageHeader'
 import { FaUser } from "react-icons/fa";
 import { TbLockPassword } from "react-icons/tb";
 import { Link, useNavigate } from 'react-router-dom';
 import Footer from '../../components/Footer';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { loginUserThunk } from '../../store/slice/user/userThunk';
 import toast from 'react-hot-toast';
 const Login = () => {
@@ -12,8 +12,14 @@ const Login = () => {
     username: "",
     password: ""
   });
+  const { isAuthenticated } = useSelector(state => state.user);
   const dispatch = useDispatch();
   const navigate = useNavigate();
+
+  useEffect(() => {
+    if(isAuthenticated) navigate('/');
+  }, [isAuthenticated])
+  
   const handleInputChange = (e) => {
     setLoginUser(prev => ({
       ...prev,
@@ -66,6 +72,7 @@ const Login = () => {
             onChange={handleInputChange}
             required
             placeholder="Password"
+            autoComplete='true'
           />
         </label>
 

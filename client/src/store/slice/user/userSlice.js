@@ -1,17 +1,22 @@
 import { createSlice } from "@reduxjs/toolkit"
-import { loginUserThunk, logoutUserThunk, registerUserThunk } from "./userThunk";
+import { getOtherUserThunk, getProfileThunk, loginUserThunk, 
+    logoutUserThunk, registerUserThunk } from "./userThunk";
 
 const initialState = {
     isAuthenticated: false,
-    isLoading: false,
-    user: null
+    isLoading: true,
+    user: null,
+    otherUsers: null,
+    selectedUser: null
 }
 
 const userSlice = createSlice({
     name: 'user',
     initialState,
     reducers: {
-        
+        setSelectedUser: (state, action) => {
+            state.selectedUser = action.payload;
+        }
     },
     extraReducers: (builder) => {
         // login
@@ -53,8 +58,33 @@ const userSlice = createSlice({
         builder.addCase(logoutUserThunk.rejected, (state, action) => {
             state.isLoading = false;
         })
+
+        // profile
+        builder.addCase(getProfileThunk.pending, (state, action) => {
+            state.isLoading = true;
+        })
+        builder.addCase(getProfileThunk.fulfilled, (state, action) => {
+            state.user = action.payload?.user || null;
+            state.isAuthenticated = !!action.payload?.user;
+            state.isLoading = false;
+        })
+        builder.addCase(getProfileThunk.rejected, (state, action) => {
+            state.isLoading = false;
+        })
+
+        // other users
+        builder.addCase(getOtherUserThunk.pending, (state, action) => {
+            state.isLoading = true;
+        })
+        builder.addCase(getOtherUserThunk.fulfilled, (state, action) => {
+            state.isLoading = false;
+            state.otherUsers = action.payload.users
+        })
+        builder.addCase(getOtherUserThunk.rejected, (state, action) => {
+            state.isLoading = false;
+        })
     }
 });
 
-export const { } = userSlice.actions;
+export const { setSelectedUser } = userSlice.actions;
 export default userSlice.reducer;

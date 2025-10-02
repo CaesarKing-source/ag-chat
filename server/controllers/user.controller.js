@@ -64,7 +64,7 @@ export const getUserProfile = asyncHandler(async (req, res, next) => {
 });
 
 export const logoutUser = asyncHandler(async (req, res, next) => {
-    res.clearCookie('ag-chat-token', cookieOptions).json({
+    res.clearCookie('ag-chat-token').json({
         success: true,
         message: 'User logged out successfully',
     })

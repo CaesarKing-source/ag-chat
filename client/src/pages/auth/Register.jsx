@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import PageHeader from '../../components/PageHeader'
 import { FaUser } from "react-icons/fa";
 import { TbLockPassword } from "react-icons/tb";
@@ -6,7 +6,7 @@ import { MdEmail } from "react-icons/md";
 import { Link, useNavigate } from 'react-router-dom';
 import Footer from '../../components/Footer';
 import toast from 'react-hot-toast';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { registerUserThunk } from '../../store/slice/user/userThunk';
 
 const Register = () => {
@@ -17,10 +17,15 @@ const Register = () => {
     password: "",
     confirmPassword: ""
   });
-
+  const { isAuthenticated } = useSelector(state => state.user);
   const dispatch = useDispatch();
   const navigate = useNavigate();
-
+  useEffect(() => {
+    if(isAuthenticated) {
+      navigate('/');
+    }
+  }, [isAuthenticated]);
+  
   const handleInputChange = (e) => {
     setRegisterUser(prev => ({
       ...prev,
@@ -102,6 +107,7 @@ const Register = () => {
             required
             placeholder="Password"
             minLength="6"
+            autoComplete='true'
           />
         </label>
 
@@ -114,6 +120,7 @@ const Register = () => {
             required
             placeholder="Confirm Password"
             minLength="6"
+            autoComplete='true'
           />
         </label>
 

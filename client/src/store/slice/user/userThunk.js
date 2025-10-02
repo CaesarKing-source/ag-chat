@@ -42,10 +42,10 @@ export const registerUserThunk = createAsyncThunk("user/register",
 });
 
 export const logoutUserThunk = createAsyncThunk("user/logout", 
-async ({_}, {rejectWithValue}) => {
+async (_, {rejectWithValue}) => {
     try {
-        const response = await axiosInstance.get('/user/logout');
-        toast.success('Logout Successful')
+        const response = await axiosInstance.post('/user/logout');
+        toast.success('Logout Successful');
         return response?.data;
     }
     catch(err) {
@@ -54,4 +54,31 @@ async ({_}, {rejectWithValue}) => {
         toast.error(errMessage.error);
         return rejectWithValue(errMessage);
     }
-})
+});
+
+export const getProfileThunk = createAsyncThunk("user/profile", 
+async (_, {rejectWithValue}) => {
+    try {
+        const response = await axiosInstance.get('/user/get-profile');
+        return response.data;
+    }
+    catch(err) {
+        const errMessage = err?.response?.data;
+        console.error(errMessage);
+        return rejectWithValue(errMessage);
+    }
+
+});
+
+export const getOtherUserThunk = createAsyncThunk("user/otherUsers",
+async (_, { rejectWithValue }) => {
+    try {
+        const response = await axiosInstance.get('/user/users');
+        return response.data;
+    }
+    catch(err) {
+        const errMessage = err?.response?.data;
+        console.error(errMessage);
+        return rejectWithValue(errMessage);
+    }
+});
