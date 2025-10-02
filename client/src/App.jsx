@@ -6,8 +6,7 @@ import { getOtherUserThunk, getProfileThunk } from './store/slice/user/userThunk
 const App = () => {
   const { user, isAuthenticated } = useSelector(state => state.user);
   const dispatch = useDispatch();
-  console.log(`user: ${user}, isAuth: ${isAuthenticated}`);
-  
+    
   useEffect(() => {
     if (isAuthenticated) {
       dispatch(getProfileThunk());

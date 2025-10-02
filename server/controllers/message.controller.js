@@ -59,7 +59,11 @@ export const getMessages = asyncHandler(async (req, res, next) => {
     }).populate('messages');
 
     if(!conversation) {
-        return next(new Error('No conversation found between the users', 404));
+       res.status(202).json({
+        success: true,
+        message: 'No conversation found between the users',
+        conversation: null,
+       })
     }
 
     res.status(200).json({

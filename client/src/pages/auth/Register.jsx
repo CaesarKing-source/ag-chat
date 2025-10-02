@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import PageHeader from '../../components/PageHeader'
 import { FaUser } from "react-icons/fa";
 import { TbLockPassword } from "react-icons/tb";
+import { IoIosChatbubbles } from "react-icons/io";
 import { MdEmail } from "react-icons/md";
 import { Link, useNavigate } from 'react-router-dom';
 import Footer from '../../components/Footer';
@@ -60,7 +61,8 @@ const Register = () => {
 
   return (
     <div className='min-h-screen w-full p-5 flex flex-col justify-center items-center gap-5 relative'>
-      <h2 className='text-5xl font-bold uppercase text-accent'>AG Chats</h2>
+      <h2 className='text-5xl flex items-center gap-2 font-bold uppercase text-accent'>
+        AG Chats <IoIosChatbubbles size={52} /></h2>
       <form className="loginForm flex flex-col gap-4 w-[40rem] border-[1px] border-gray-200 
       py-4 px-6 rounded-xl">
         <PageHeader title={'Register User'} />
